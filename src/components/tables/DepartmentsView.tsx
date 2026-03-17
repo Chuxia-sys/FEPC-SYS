@@ -45,8 +45,23 @@ export function DepartmentsView() {
   const fetchDepartments = async () => {
     try {
       const res = await fetch('/api/departments');
+      if (!res.ok) {
+        let message = 'Failed to load departments';
+        if (res.status === 401) {
+          message = 'Please sign in to view departments';
+        } else {
+          const errorBody = await res.json().catch(() => null);
+          if (errorBody?.error) {
+            message = errorBody.error;
+          }
+        }
+        setDepartments([]);
+        toast.error(message);
+        return;
+      }
+
       const data = await res.json();
-      setDepartments(data);
+      setDepartments(Array.isArray(data) ? data : []);
     } catch (error) {
       console.error('Error fetching departments:', error);
       toast.error('Failed to load departments');
