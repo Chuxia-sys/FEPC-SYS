@@ -81,10 +81,15 @@ export function LoginPage() {
     const fetchDepartments = async () => {
       try {
         const res = await fetch('/api/departments');
+        if (!res.ok) {
+          setDepartments([]);
+          return;
+        }
         const data = await res.json();
-        setDepartments(data);
+        setDepartments(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching departments:', error);
+        setDepartments([]);
       }
     };
     fetchDepartments();
