@@ -1,14 +1,14 @@
 // FEPC Scheduling System - Premium SaaS Database Schema
 // This schema supports intelligent timetable management with conflict detection
-// Configured for Firebase/Firestore (Cloud deployment)
+// Configured for PostgreSQL (Render deployment)
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "firebase"
-  url      = env("FIREBASE_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // User roles: admin, department_head, faculty
